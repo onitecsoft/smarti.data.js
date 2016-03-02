@@ -12,7 +12,7 @@ JavaScript helper for data processing.
     </tr>
   </thead>
   <tr>
-    <td><b>getter</b>(property)</td>
+    <td><b>getter(property)</b></td>
     <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
   </tr>
   <tr>
@@ -26,7 +26,7 @@ getter = smarti.data.getter('some\\.property');
     </td>
   </tr>
   <tr>
-    <td><pre lang="javascript">get(property, dataItem)</pre></td>
+    <td><b>get(property, dataItem)</b></td>
     <td>returns value of any nested object property</td>
   </tr>
   <tr>
@@ -35,7 +35,7 @@ getter = smarti.data.getter('some\\.property');
     </td>
   </tr>
   <tr>
-    <td><pre lang="javascript">sort(data, options)</pre></td>
+    <td><b>sort(data, options)</b></td>
     <td>sort an array of primitive values or complex objects<br/>options represents sorting fields, methods and directions<br/>method changes the original array</td>
   </tr>
   <tr>
@@ -59,19 +59,19 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
     </td>
   </tr>
   <tr>
-    <td><pre lang="javascript">filter(data, filters)</pre></td>
+    <td><b>filter(data, filters)</b></td>
     <td></td>
   </tr>
   <tr>
-    <td><pre lang="javascript">contains(str, substr, cs)</pre></td>
+    <td><b>contains(str, substr, cs)</b></td>
     <td></td>
   </tr>
   <tr>
-    <td><pre lang="javascript">starts(str, substr, cs)</pre></td>
+    <td><b>starts(str, substr, cs)</b></td>
     <td></td>
   </tr>
   <tr>
-    <td><pre lang="javascript">ends(str, substr, cs)</pre></td>
+    <td><b>ends(str, substr, cs)</b></td>
     <td></td>
   </tr>
 </table>
