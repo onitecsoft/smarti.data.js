@@ -25,7 +25,7 @@ getter = smarti.data.getter('some\\.property');</pre>
   </tr>
   <tr>
     <td><code>get(property, dataItem)</code></td>
-    <td>returns value for any nested object property</td>
+    <td>returns value of any nested object property</td>
   </tr>
   <tr>
     <td colspan="2">
