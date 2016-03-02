@@ -34,7 +34,24 @@ getter = smarti.data.getter('some\\.property');</pre>
   </tr>
   <tr>
     <td><code>sort(data, options)</code></td>
-    <td></td>
+    <td>sort an array of primitive or complex objects<br/>options represents sorting fields, methods and directions</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var data = [3,7,1,5];
+smarti.data.sort(data); //sort ascending
+smarti.data.sort(data, 'desc'); //descending
+data = [
+        { id:1, name:'a' },
+        { id:2, name:'a' },
+        { id:3, name:'b' }
+      ];
+smarti.data.sort(data, { field:'name' });
+smarti.data.sort(data, [{ field:'name' }, { field:'id', dir:'desc' }]);
+smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
+</pre>
+    </td>
   </tr>
   <tr>
     <td><code>filter(data, filters)</code></td>
