@@ -8,12 +8,13 @@ JavaScript helper for data processing.
   <tr>
     <th>member</th>
     <th>description</th>
-    <th>example</th>
   </tr>
   <tr>
     <td><code>getter(property)</code></td>
     <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
-    <td>
+  </tr>
+  <tr>
+    <td colspan="2">
 <pre lang="javascript">var getter = smarti.data.getter('Name');
 var name = getter(dataItem);
 getter = smarti.data.getter('Address.City');
@@ -23,31 +24,30 @@ getter = smarti.data.getter('some\\.property');</pre>
   <tr>
     <td><code>get(property, dataItem)</code></td>
     <td>returns value for any nested object property</td>
-    <td><pre lang="javascript">var name = smarti.data.get('Name', dataItem);</pre></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <pre lang="javascript">var name = smarti.data.get('Name', dataItem);</pre>
+    </td>
   </tr>
   <tr>
     <td><code>sort(data, options)</code></td>
-    <td></td>
     <td></td>
   </tr>
   <tr>
     <td><code>filter(data, filters)</code></td>
     <td></td>
-    <td></td>
   </tr>
   <tr>
     <td><code>contains(str, substr, cs)</code></td>
-    <td></td>
     <td></td>
   </tr>
   <tr>
     <td><code>starts(str, substr, cs)</code></td>
     <td></td>
-    <td></td>
   </tr>
   <tr>
     <td><code>ends(str, substr, cs)</code></td>
-    <td></td>
     <td></td>
   </tr>
 </table>
