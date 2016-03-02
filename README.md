@@ -6,4 +6,5 @@ JavaScript helper for data processing.
 
 member | description | example
 --- | --- | ---
-smarti.data.getter(property) | returns getter function for any nested object property | var getter = smarti.data.getter('Name');
+`smarti.data.getter(property)` | returns getter function for any nested object property | `var getter = smarti.data.getter('Name');`
+`var name = getter(dataItem);`
