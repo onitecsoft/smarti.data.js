@@ -5,10 +5,12 @@ JavaScript helper for data processing.
 <b>Reference</b>
 
 <table>
-  <tr>
-    <th>member</th>
-    <th>description</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>member</th>
+      <th>description</th>
+    </tr>
+  </thead>
   <tr>
     <td><code>getter(property)</code></td>
     <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
