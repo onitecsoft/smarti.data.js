@@ -1,3 +1,3 @@
 # smarti.data.js
 
-JavaScript helper to work with data.
+JavaScript helper for data processing.
