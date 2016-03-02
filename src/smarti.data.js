@@ -9,7 +9,7 @@ smarti.data = {
 		}
 		else return function (o) { return o[a[0]] != null ? o[a[0]] : ''; };
 	},
-	get: function (dataItem, property) {
+	get: function (property, dataItem) {
 		return this.getter(property)(dataItem);
 	},
 	sort: function (data, options) {
