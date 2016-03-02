@@ -25,4 +25,29 @@ getter = smarti.data.getter('some\\.property');</pre>
     <td>returns value for any nested object property</td>
     <td><pre lang="javascript">var name = smarti.data.get('Name', dataItem);</pre></td>
   </tr>
+  <tr>
+    <td><code>sort(data, options)</code></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>filter(data, filters)</code></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>contains(str, substr, cs)</code></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>starts(str, substr, cs)</code></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>ends(str, substr, cs)</code></td>
+    <td></td>
+    <td></td>
+  </tr>
 </table>
