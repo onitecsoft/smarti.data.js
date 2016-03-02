@@ -23,6 +23,6 @@ getter = smarti.data.getter('some\\.property');</pre>
   <tr>
     <td><code>get(property, dataItem)</code></td>
     <td>returns value for any nested object property</td>
-    <td><pre lang="javascript">var name = smarti.data.get(dataItem, 'Name');</pre></td>
+    <td><pre lang="javascript">var name = smarti.data.get('Name', dataItem);</pre></td>
   </tr>
 </table>
