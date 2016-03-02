@@ -26,7 +26,7 @@ getter = smarti.data.getter('some\\.property');
     </td>
   </tr>
   <tr>
-    <td><code>get(property, dataItem)</code></td>
+    <td><pre lang="javascript">get(property, dataItem)</pre></td>
     <td>returns value of any nested object property</td>
   </tr>
   <tr>
@@ -35,7 +35,7 @@ getter = smarti.data.getter('some\\.property');
     </td>
   </tr>
   <tr>
-    <td><code>sort(data, options)</code></td>
+    <td><pre lang="javascript">sort(data, options)</pre></td>
     <td>sort an array of primitive values or complex objects<br/>options represents sorting fields, methods and directions<br/>method changes the original array</td>
   </tr>
   <tr>
@@ -59,19 +59,19 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
     </td>
   </tr>
   <tr>
-    <td><code>filter(data, filters)</code></td>
+    <td><pre lang="javascript">filter(data, filters)</pre></td>
     <td></td>
   </tr>
   <tr>
-    <td><code>contains(str, substr, cs)</code></td>
+    <td><pre lang="javascript">contains(str, substr, cs)</pre></td>
     <td></td>
   </tr>
   <tr>
-    <td><code>starts(str, substr, cs)</code></td>
+    <td><pre lang="javascript">starts(str, substr, cs)</pre></td>
     <td></td>
   </tr>
   <tr>
-    <td><code>ends(str, substr, cs)</code></td>
+    <td><pre lang="javascript">ends(str, substr, cs)</pre></td>
     <td></td>
   </tr>
 </table>
