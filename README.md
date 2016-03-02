@@ -12,7 +12,7 @@ JavaScript helper for data processing.
     </tr>
   </thead>
   <tr>
-    <td><code>getter(property)</code></td>
+    <td><pre lang="javascript">getter(property)</pre></td><!--#a71d5d-->
     <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
   </tr>
   <tr>
