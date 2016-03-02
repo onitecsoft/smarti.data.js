@@ -12,15 +12,17 @@ JavaScript helper for data processing.
     </tr>
   </thead>
   <tr>
-    <td><b style="color:#a71d5d"><span >getter</span>(property)</b></td>
+    <td><b class="pl-k"><span >getter</span>(property)</b></td>
     <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
   </tr>
   <tr>
     <td colspan="2">
-<pre lang="javascript">var getter = smarti.data.getter('Name');
+<pre lang="javascript">
+var getter = smarti.data.getter('Name');
 var name = getter(dataItem);
 getter = smarti.data.getter('Address.City');
-getter = smarti.data.getter('some\\.property');</pre>
+getter = smarti.data.getter('some\\.property');
+</pre>
     </td>
   </tr>
   <tr>
