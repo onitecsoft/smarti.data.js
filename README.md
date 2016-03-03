@@ -2,6 +2,8 @@
 
 JavaScript helper for data processing.
 
+[Download](https://raw.githubusercontent.com/onitecsoft/smarti.data.js/master/src/smarti.data.js)
+
 <b>Reference</b>
 
 <table>
