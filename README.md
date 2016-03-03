@@ -60,7 +60,20 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
   </tr>
   <tr>
     <td><b>filter(data, filters)</b></td>
-    <td></td>
+    <td>returns filtered data<br/>filters is an array of conditions represented by functions (can have named indexes)<br/>conditions are concatenaed with `&&` operator</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var data = [
+            { id:1, name:'a' },
+            { id:2, name:'a' },
+            { id:3, name:'b' }
+          ];
+var filteredData =smarti.data.filter(data, { filter1:function(e){ return e.id>1 } });
+var filteredData =smarti.data.filter(data, [function(e){ return e.id==1 },function(e){ return e.name=='a' }]);
+</pre>
+    </td>
   </tr>
   <tr>
     <td><b>contains(str, substr, cs)</b></td>
