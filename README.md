@@ -36,7 +36,7 @@ getter = smarti.data.getter('some\\.property');
   </tr>
   <tr>
     <td><b>sort(data, options)</b></td>
-    <td>sort an array of primitive values or complex objects<br/>options represents sorting fields, methods and directions<br/>method changes the original array</td>
+    <td>sort an array of primitive values or complex objects<br/><code>options</code> represents sorting fields, methods and directions<br/>method changes the original array</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -60,7 +60,7 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
   </tr>
   <tr>
     <td><b>filter(data, filters)</b></td>
-    <td>returns filtered data<br/>filters is a condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
+    <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
   </tr>
   <tr>
     <td colspan="2">
