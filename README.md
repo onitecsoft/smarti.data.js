@@ -81,22 +81,41 @@ var filteredData = smarti.data.filter(data, [
   </tr>
   <tr>
     <td><b>contains(str, substr, cs)</b></td>
-    <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)</td>
+    <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
   </tr>
   <tr>
     <td colspan="2">
 <pre lang="javascript">
-var contains = smarti.data.contains('TEST', 't'); //returns true;
-var contains = smarti.data.contains('TEST', 't', true); //returns false;
+var contains1 = smarti.data.contains('TEST', 't'); //returns true;
+var contains2 = smarti.data.contains('TEST', 't', true); //returns false;
+var contains3 = smarti.data.contains(new Date('2016-1-1'), 2016) //returns true;
 </pre>
     </td>
   </tr>
   <tr>
     <td><b>starts(str, substr, cs)</b></td>
-    <td></td>
+    <td>returns whether string starts with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var starts1 = smarti.data.starts('TEST', 't'); //returns true;
+var starts2 = smarti.data.starts('TEST', 't', true); //returns false;
+var starts3 = smarti.data.starts(new Date('2016-1-1'), 2016) //returns false;
+</pre>
+    </td>
   </tr>
   <tr>
     <td><b>ends(str, substr, cs)</b></td>
-    <td></td>
+    <td>returns whether string ends with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var ends1 = smarti.data.ends('TEST', 't'); //returns true;
+var ends2 = smarti.data.ends('TEST', 't', true); //returns false;
+var ends3 = smarti.data.ends(new Date('2016-1-1'), 2016) //returns false;
+</pre>
+    </td>
   </tr>
 </table>
