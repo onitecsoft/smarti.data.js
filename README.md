@@ -81,7 +81,7 @@ var filteredData = smarti.data.filter(data, [
   </tr>
   <tr>
     <td><b>contains(str, substr, cs)</b></td>
-    <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
+    <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type (arguments are converted <code>toString()</code>)</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -94,7 +94,7 @@ var contains3 = smarti.data.contains(new Date('2016-1-1'), 2016) //returns true;
   </tr>
   <tr>
     <td><b>starts(str, substr, cs)</b></td>
-    <td>returns whether string starts with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
+    <td>returns whether string starts with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type (arguments are converted <code>toString()</code>)</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -107,7 +107,7 @@ var starts3 = smarti.data.starts(new Date('2016-1-1'), 2016) //returns false;
   </tr>
   <tr>
     <td><b>ends(str, substr, cs)</b></td>
-    <td>returns whether string ends with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type</td>
+    <td>returns whether string ends with substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type (arguments are converted <code>toString()</code>)</td>
   </tr>
   <tr>
     <td colspan="2">
