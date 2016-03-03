@@ -36,7 +36,7 @@ getter = smarti.data.getter('some\\.property');
   </tr>
   <tr>
     <td><b>sort(data, options)</b></td>
-    <td>sort an array of primitive values or complex objects<br/><code>options</code> represents sorting fields, methods and directions<br/>method changes the original array</td>
+    <td>sort an array of primitive values or complex objects<br/><code>options</code> represents sorting fields, methods and directions (can be <code>string</code>, <code>object</code> with structure: { field:'...', method:function(dataItem){ return ... }, dir:'asc | desc' } or <code>array</code> of objects)<br/>method changes the original array</td>
   </tr>
   <tr>
     <td colspan="2">
