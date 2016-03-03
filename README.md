@@ -40,7 +40,7 @@ getter = smarti.data.getter('some\\.property');
       <code>options</code> can be:<br/>
       <code>string</code> - represent direction <code>'asc | desc'</code><br/>
       <code>object</code> - <code>{ field:'...', method:function(e){ return ... }, dir:'asc | desc' }</code><br/>
-      <code>array</code> of objects)<br/>method changes the original array</td>
+      <code>array</code> - array of above objects<br/>method changes the original array</td>
   </tr>
   <tr>
     <td colspan="2">
