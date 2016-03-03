@@ -41,14 +41,14 @@ smarti.data = {
 		else return data;
 	},
 	contains: function (str, substr, cs) {
-		return this._ns(str).indexOf(this._ns(substr)) > -1;
+		return this._ns(str, cs).indexOf(this._ns(substr, cs)) > -1;
 	},
 	starts: function (str, substr, cs) {
-		return this._ns(str).indexOf(this._ns(substr)) == 0;
+		return this._ns(str, cs).indexOf(this._ns(substr, cs)) == 0;
 	},
 	ends: function (str, substr, cs) {
-		var s = this._ns(str);
-		var m = this._ns(substr);
+		var s = this._ns(str, cs);
+		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
 	},
 	_ns: function (str, cs) {
