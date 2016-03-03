@@ -29,6 +29,7 @@ smarti.data = {
 		}
 	},
 	filter: function (data, filters) {
+		if (typeof filters === 'function') filters = [filters];
 		var f = [];
 		for (var i in filters) if (typeof filters[i] === 'function') f.push('filters["' + i + '"](o)');
 		if (f.length > 0) {
