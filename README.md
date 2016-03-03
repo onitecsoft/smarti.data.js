@@ -81,7 +81,15 @@ var filteredData = smarti.data.filter(data, [
   </tr>
   <tr>
     <td><b>contains(str, substr, cs)</b></td>
-    <td></td>
+    <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var contains = smarti.data.contains('TEST', 't'); //returns true;
+var contains = smarti.data.contains('TEST', 't', true); //returns false;
+</pre>
+    </td>
   </tr>
   <tr>
     <td><b>starts(str, substr, cs)</b></td>
