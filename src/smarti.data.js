@@ -40,6 +40,20 @@ smarti.data = {
 		}
 		else return data;
 	},
+	sum: function (data, field) {
+		var s = 0;
+		if (data && data.length > 0) {
+			if (field) {
+				var g = this.getter(field);
+				for (var i = 0; i < data.length; i++) s += g(data[i]);
+			}
+			else for (var i = 0; i < data.length; i++) s += data[i];
+		}
+		return s;
+	},
+	avg: function (data, field) {
+		return data && data.length > 0 ? this.sum(data, field) / data.length : 0;
+	},
 	contains: function (str, substr, cs) {
 		return this._ns(str, cs).indexOf(this._ns(substr, cs)) > -1;
 	},
