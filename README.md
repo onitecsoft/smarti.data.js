@@ -86,6 +86,14 @@ var filteredData = smarti.data.filter(data, [
     </td>
   </tr>
   <tr>
+    <td><b>sum(data, field)</b></td>
+    <td>returns sum of any nested object property or sum of primitive array (<code>field</code> must be <code>null</code>)</td>
+  </tr>
+  <tr>
+    <td><b>avg(data, field)</b></td>
+    <td></td>
+  </tr>
+  <tr>
     <td><b>contains(str, substr, cs)</b></td>
     <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type (arguments are converted <code>toString()</code>)</td>
   </tr>
