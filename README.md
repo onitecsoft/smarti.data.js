@@ -104,6 +104,16 @@ sum = smarti.data.sum(arr, 'amount'); //returns 4.6
     <td>returns average of any nested object property or sum of primitive array (<code>field</code> must be <code>null</code>)</td>
   </tr>
   <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var arr = [1,2,3];
+var avg = smarti.data.avg(arr); //returns 2
+arr = [{ id:1, amount:1.2 },{ id:2, amount:3.4 }];
+avg = smarti.data.avg(arr, 'amount'); //returns 2.3
+</pre>
+    </td>
+  </tr>
+  <tr>
     <td><b>contains(str, substr, cs)</b></td>
     <td>returns whether string contains substring<br/><code>cs</code> - case sensitive (<code>true</code> | <code>false</code>)<br/>accepts any data type (arguments are converted <code>toString()</code>)</td>
   </tr>
