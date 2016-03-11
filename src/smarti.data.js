@@ -45,11 +45,31 @@ smarti.data = {
 		if (data && data.length > 0) {
 			if (field) {
 				var g = this.getter(field);
-				for (var i = 0; i < data.length; i++) s += g(data[i]);
+				for (var i = 0; i < data.length; i++) s += g(data[i]) || 0;
 			}
-			else for (var i = 0; i < data.length; i++) s += data[i];
+			else for (var i = 0; i < data.length; i++) s += data[i] || 0;
 		}
 		return s;
+	},
+	min: function (data, field) {
+		var m;
+		if (data && data.length > 0) {
+			var g = field ? this.getter(field) : null;
+			m = g ? g(data[0]) : data[0];
+			if (g) for (var i = 1; i < data.length; i++) { var v = g(data[i]); if (v < m) m = v; }
+			else for (var i = 1; i < data.length; i++) { var v = data[i]; if (v < m) m = v; }
+		}
+		return m || '';
+	},
+	max: function (data, field) {
+		var m;
+		if (data && data.length > 0) {
+			var g = field ? this.getter(field) : null;
+			m = g ? g(data[0]) : data[0];
+			if (g) for (var i = 1; i < data.length; i++) { var v = g(data[i]); if (v > m) m = v; }
+			else for (var i = 1; i < data.length; i++) { var v = data[i]; if (v > m) m = v; }
+		}
+		return m || '';
 	},
 	avg: function (data, field) {
 		return data && data.length > 0 ? this.sum(data, field) / data.length : 0;
