@@ -65,6 +65,14 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
     </td>
   </tr>
   <tr>
+    <td><b>group(data, by)</b></td>
+    <td>returns grouped data<br/>
+      <code>by</code> can be:<br/>
+      <code>string</code> - represent field name><br/>
+      <code>function</code> - represent method that return primitive or complex object value<br/>
+      <code>array</code> - array of above parameters (multiple nested groups)</td>
+  </tr>
+  <tr>
     <td><b>filter(data, filters)</b></td>
     <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
   </tr>
