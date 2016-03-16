@@ -42,7 +42,7 @@ getter = smarti.data.getter('some\\.property');
       <code>options</code> can be:<br/>
       <code>string</code> - represent direction <code>'asc | desc'</code><br/>
       <code>object</code> - <code>{ field:'...', method:function(e){ return ... }, dir:'asc | desc' }</code><br/>
-      <code>array</code> - array of above objects<br/>method changes the original array</td>
+      <code>array</code> - array of above objects<br/><br/><b>NB!</b> method changes the original array</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -70,7 +70,7 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
       <code>by</code> can be:<br/>
       <code>string</code> - represent field name<br/>
       <code>function</code> - represent method that return primitive or complex object value (group by multiple fields)<br/>
-      <code>array</code> - array of above parameters (multiple nested groups)<br/></td>
+      <code>array</code> - array of above parameters (multiple nested groups)<br/><b>NB!</b> grouping does not change order of items, so supposed data is sorted</td>
   </tr>
   <tr>
     <td><b>filter(data, filters)</b></td>
