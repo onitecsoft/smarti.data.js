@@ -104,8 +104,28 @@ sum = smarti.data.sum(arr, 'amount'); //returns 4.6
     <td>returns min value of any nested object property<br/>or min value of primitive array (<code>field</code> must be <code>null</code>)<br/>accepts any data type</td>
   </tr>
   <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var arr = [1,2,3];
+var min = smarti.data.min(arr); //returns 1
+arr = [{ id:1, amount:1.2 },{ id:2, amount:3.4 }];
+min = smarti.data.min(arr, 'amount'); //returns 1.2
+</pre>
+    </td>
+  </tr>
+  <tr>
     <td><b>max(data, field)</b></td>
     <td>returns max value of any nested object property<br/>or max value of primitive array (<code>field</code> must be <code>null</code>)<br/>accepts any data type</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var arr = [1,2,3];
+var max = smarti.data.max(arr); //returns 3
+arr = [{ id:1, amount:1.2 },{ id:2, amount:3.4 }];
+max = smarti.data.max(arr, 'amount'); //returns 3.4
+</pre>
+    </td>
   </tr>
   <tr>
     <td><b>avg(data, field)</b></td>
