@@ -13,32 +13,61 @@ smarti.data = {
 		return this.getter(property)(dataItem);
 	},
 	sort: function (data, options) {
-		if (options == null || typeof options == 'string') {
-			if (options == 'desc') data.sort(function (x, y) { return x < y; });
-			else data.sort(function (x, y) { return x > y; });
-		}
-		else {
-			var s = [].concat(options);
-			var f = '';
-			for (var i = 0; i < s.length; i++) {
-				var d = s[i].dir == 'desc' ? -1 : 1;
-				if (!s[i].method) s[i].method = this.getter(s[i].field);
-				f += 'sx=s[' + i + '].method.call(x,x);sy=s[' + i + '].method.call(y,y);if(sx>sy)return ' + d + ';if(sx<sy)return ' + -d + ';';
+		if (data && data.length > 0) {
+			if (options == null || typeof options == 'string') {
+				if (options == 'desc') data.sort(function (x, y) { return x < y; });
+				else data.sort(function (x, y) { return x > y; });
 			}
-			data.sort(eval('(function(x,y){var gx,gy;' + f + '})'));
+			else {
+				var s = [].concat(options);
+				var f = '';
+				for (var i = 0; i < s.length; i++) {
+					var d = s[i].dir == 'desc' ? -1 : 1;
+					if (!s[i].method) s[i].method = this.getter(s[i].field);
+					f += 'sx=s[' + i + '].method.call(x,x);sy=s[' + i + '].method.call(y,y);if(sx>sy)return ' + d + ';if(sx<sy)return ' + -d + ';';
+				}
+				data.sort(eval('(function(x,y){var gx,gy;' + f + '})'));
+			}
 		}
 	},
-	filter: function (data, filters) {
-		if (typeof filters === 'function') filters = [filters];
-		var f = [];
-		for (var i in filters) if (typeof filters[i] === 'function') f.push('filters["' + i + '"](o)');
-		if (f.length > 0) {
-			var d = [];
-			f = eval('(function(o){return ' + f.join('&&') + '})');
-			for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
-			return d;
+	group: function (data, by/*, aggregates*/) {
+		if (data && data.length > 0 && by) {
+			var g = [].concat(by), m = {}, f = '', gd = [], p = null;
+			var gf = function (i, d, v) {
+				v.push(g[i].call(d, d));
+				var k = JSON.stringify(v);
+				if (!m[k]) {
+					m[k] = { items: [], level: i, value: v[i], count: 0 }
+					if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
+				}
+				p = m[k];
+				p.count++;
+				if (i == g.length - 1) p.items.push(d);
+				//todo aggregates
+			}
+			for (var i = 0; i < g.length; i++) {
+				if (typeof g[i] == 'string') g[i] = this.getter(g[i]);
+				f += 'gf(' + i + ',d,v);';
+			}
+			f = eval('(function(i,d){var v=[];' + f + '})');
+			for (var i = 0; i < data.length; i++) f(i, data[i]);
+			return gd;
 		}
-		else return data;
+		return data;
+	},
+	filter: function (data, filters) {
+		if (data && data.length > 0) {
+			if (typeof filters === 'function') filters = [filters];
+			var f = [];
+			for (var i in filters) if (typeof filters[i] === 'function') f.push('filters["' + i + '"](o)');
+			if (f.length > 0) {
+				var d = [];
+				f = eval('(function(o){return ' + f.join('&&') + '})');
+				for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
+				return d;
+			}
+		}
+		return data;
 	},
 	sum: function (data, field) {
 		var s = 0;
