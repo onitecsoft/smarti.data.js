@@ -80,28 +80,30 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
     <td colspan="2">
 <pre lang="javascript">
 var data = [
-            { year:2015, name:'a' },
-            { year:2016, name:'a' },
-            { year:2015, name:'b' }
+            { year:2015, name:'a', amount:1 },
+            { year:2016, name:'a', amount:2 },
+            { year:2015, name:'b', amount:3 }
           ];
-var grouped_data = smarti.data.group(data, 'year');
+var grouped_data = smarti.data.group(data, 'year', { sum:['amount'] });
 //returns 
 //[
 //  {
-//    "items":[{"year":2015,"name":"a"},{"year":2015,"name":"b"}],
+//    "items":[{"year":2015,"name":"a","amount":1},{"year":2015,"name":"b","amount":3}],
 //    "level":0,
 //    "value":2015,
 //    "count":2,
-//    "first":{"year":2015,"name":"a"},
-//    "last":{"year":2015,"name":"b"}
+//    "first":{"year":2015,"name":"a","amount":1},
+//    "last":{"year":2015,"name":"b","amount":3},
+//    "sum":{"amount":4}
 //  },
 //  {
-//    "items":[{"year":2016,"name":"a"}],
+//    "items":[{"year":2016,"name":"a","amount":2}],
 //    "level":0,
 //    "value":2016,
 //    "count":1,
-//    "first":{"year":2016,"name":"a"},
-//    "last":{"year":2016,"name":"a"}
+//    "first":{"year":2016,"name":"a","amount":2},
+//    "last":{"year":2016,"name":"a","amount":2},
+//    "sum":{"amount":2}
 //  }
 //]
 </pre>
