@@ -106,6 +106,13 @@ var grouped_data = smarti.data.group(data, 'year', { sum:['amount'] });
 //    "sum":{"amount":2}
 //  }
 //]
+grouped_data = smarti.data.group(data, function (e) { return { year: e.year, name: e.name } });
+//returns 3 groups:
+//...
+//"value":{"year":2015,"name":"a"}
+//"value":{"year":2016,"name":"a"}
+//"value":{"year":2015,"name":"b"}
+//...
 </pre>
     </td>
   </tr>
