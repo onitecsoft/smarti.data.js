@@ -67,11 +67,10 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
   <tr>
     <td><b>group(data, by, aggregates)</b></td>
     <td>returns grouped data<br/>
-      <code>by</code> can be:<br/>
-      <code>string</code> - represent field name<br/>
-      <code>function</code> - represent method that return primitive or complex object value (group by multiple fields)<br/>
-      <code>array</code> - array of above parameters (multiple nested groups)<br/>
-      <code>aggregates</code> - represent a javascript object, where the key is aggregate name (<code>sum</code>| <code>min</code>|<code>max</code>) and value is array of field names or/and objects that represent custom field (<code>{custom_field:function(e){ return e.SomeField; }}</code>)<br/>
+      <code>by</code> - represent field name<br/>
+      &nbsp; &nbsp;or function that return primitive or complex object value (group by multiple fields)<br/>
+      &nbsp; &nbsp;or an array of above parameters (multiple nested groups)<br/>
+      <code>aggregates</code> - represent a javascript object, where the key is aggregate name (<code>sum</code>, <code>min</code>,<code>max</code>) and value is array of field names or/and objects that represent custom field (<code>{custom_field:function(e){ return e.SomeField; }}</code>)<br/>
       <b>NB!</b> grouping does not change order of items, so supposed data is sorted already</td>
   </tr>
   <tr>
