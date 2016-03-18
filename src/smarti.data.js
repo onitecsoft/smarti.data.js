@@ -5,9 +5,9 @@ smarti.data = {
 			var q = [];
 			for (var i = 0; i < a.length; i++) q.push((i > 0 ? q[i - 1] : 'o') + '[a[' + i + ']]');
 			var v = q.pop();
-			return eval('(function(o){return ' + q.join('&&') + '&&' + v + '!=null?' + v + ":'';})");
+			return eval('(function(o){return ' + q.join('&&') + '&&' + v + ';})');
 		}
-		else return function (o) { return o[a[0]] != null ? o[a[0]] : ''; };
+		else return function (o) { return o[a[0]]; };
 	},
 	get: function (property, dataItem) {
 		return this.getter(property)(dataItem);
@@ -30,24 +30,43 @@ smarti.data = {
 			}
 		}
 	},
-	group: function (data, by/*, aggregates*/) {
+	group: function (data, by, aggregates) {
 		if (data && data.length > 0 && by) {
-			var g = [].concat(by), m = {}, f = '', gd = [], p = null;
+			var g = [].concat(by), m = {}, f = '', gd = [], p = null, ag = {}, af = '';
+			if (aggregates) {
+				var sum = function (d, f) { smarti.data._sum(p.sum, ag.sum[f](d), f); }
+				var min = function (d, f) { smarti.data._min(p.min, ag.min[f](d), f); }
+				var max = function (d, f) { smarti.data._max(p.max, ag.max[f](d), f); }
+				//avg, custom
+				for (var a in aggregates) {
+					ag[a] = {};
+					for (var i = 0; i < aggregates[a].length; i++) {
+						var k = aggregates[a][i];
+						if (typeof k == 'string') ag[a][k] = this.getter(k);
+						else {
+							for (kk in k);
+							ag[a][kk] = k[kk];
+							k = kk;
+						}
+						if (['sum', 'min', 'max'].indexOf(a) >= 0) af += a + "(d,'" + k.replace(/'/g, "\\'") + "');";
+					}
+				}
+			}
 			var gf = function (i, d, v) {
 				v.push(g[i].call(d, d));
 				var k = JSON.stringify(v);
 				if (!m[k]) {
-					m[k] = { items: [], level: i, value: v[i], count: 0 }
+					m[k] = { items: [], level: i, value: v[i], count: 0, first: d, sum: {}, min: {}, max: {}, avg: {}, custom: {} }
 					if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
 				}
 				p = m[k];
+				p.last = d;
 				p.count++;
 				if (i == g.length - 1) p.items.push(d);
-				//todo aggregates
 			}
 			for (var i = 0; i < g.length; i++) {
 				if (typeof g[i] == 'string') g[i] = this.getter(g[i]);
-				f += 'gf(' + i + ',d,v);';
+				f += 'gf(' + i + ',d,v);' + af;
 			}
 			f = eval('(function(i,d){var v=[];' + f + '})');
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
@@ -70,35 +89,13 @@ smarti.data = {
 		return data;
 	},
 	sum: function (data, field) {
-		var s = 0;
-		if (data && data.length > 0) {
-			if (field) {
-				var g = this.getter(field);
-				for (var i = 0; i < data.length; i++) s += g(data[i]) || 0;
-			}
-			else for (var i = 0; i < data.length; i++) s += data[i] || 0;
-		}
-		return s;
+		return this._aggr(data, field, this._sum);
 	},
 	min: function (data, field) {
-		var m;
-		if (data && data.length > 0) {
-			var g = field ? this.getter(field) : null;
-			m = g ? g(data[0]) : data[0];
-			if (g) for (var i = 1; i < data.length; i++) { var v = g(data[i]); if (v < m) m = v; }
-			else for (var i = 1; i < data.length; i++) { var v = data[i]; if (v < m) m = v; }
-		}
-		return m || '';
+		return this._aggr(data, field, this._min);
 	},
 	max: function (data, field) {
-		var m;
-		if (data && data.length > 0) {
-			var g = field ? this.getter(field) : null;
-			m = g ? g(data[0]) : data[0];
-			if (g) for (var i = 1; i < data.length; i++) { var v = g(data[i]); if (v > m) m = v; }
-			else for (var i = 1; i < data.length; i++) { var v = data[i]; if (v > m) m = v; }
-		}
-		return m || '';
+		return this._aggr(data, field, this._max);
 	},
 	avg: function (data, field) {
 		return data && data.length > 0 ? this.sum(data, field) / data.length : 0;
@@ -113,6 +110,25 @@ smarti.data = {
 		var s = this._ns(str, cs);
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
+	},
+	_aggr: function (d, f, a) {
+		var m = { v: undefined };
+		if (d && d.length > 0) {
+			var g = f ? this.getter(f) : null;
+			if (g) for (var i = 0; i < d.length; i++) a(m, g(d[i]), 'v');
+			else for (var i = 0; i < d.length; i++) a(m, d[i], 'v');
+		}
+		return m.v;
+	},
+	_max: function (o, v, f) {
+		if (o[f] === undefined || v > o[f]) o[f] = v;
+	},
+	_min: function (o, v, f) {
+		if (o[f] === undefined || v < o[f]) o[f] = v;
+	},
+	_sum: function (o, v, f) {
+		if (o[f] == null) o[f] = v;
+		else if (v != null) o[f] += v;
 	},
 	_ns: function (str, cs) {
 		var s = str != null ? str.toString() : '';
