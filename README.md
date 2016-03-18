@@ -84,7 +84,7 @@ var data = [
             { year:2016, name:'a', amount:2 },
             { year:2015, name:'b', amount:3 }
           ];
-var grouped_data = smarti.data.group(data, 'year', { sum:['amount'] });
+var grouped_data = smarti.data.group(data, 'year', { sum:'amount' });
 //returns 
 //[
 //  {
@@ -112,6 +112,11 @@ grouped_data = smarti.data.group(data, function (e) { return { year: e.year, nam
 //"value":{"year":2015,"name":"a"}
 //"value":{"year":2016,"name":"a"}
 //"value":{"year":2015,"name":"b"}
+//...
+//grouped_data = smarti.data.group(data, 'year', { sum: { customField: function (e) { return e.amount * 10 } } });
+//...
+//"sum":{"customField":40}
+//"sum":{"customField":20}
 //...
 </pre>
     </td>
