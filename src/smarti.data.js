@@ -40,8 +40,9 @@ smarti.data = {
 				//avg, custom
 				for (var a in aggregates) {
 					ag[a] = {};
-					for (var i = 0; i < aggregates[a].length; i++) {
-						var k = aggregates[a][i];
+					var aggr = [].concat(aggregates[a]);
+					for (var i = 0; i < aggr.length; i++) {
+						var k = aggr[i];
 						if (typeof k == 'string') ag[a][k] = this.getter(k);
 						else {
 							for (kk in k);
