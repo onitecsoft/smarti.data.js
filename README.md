@@ -66,11 +66,11 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
   </tr>
   <tr>
     <td><b>group(data, by, aggregates)</b></td>
-    <td>returns grouped data with calculated aggregates (<code>count</code>, <code>first</code>, <code>last</code>)<br/>
+    <td>returns grouped data with calculated aggregates<br/>
       <code>by</code> - represent field name<br/>
       &nbsp; &nbsp; &nbsp; or function that return primitive or complex object value (group by multiple fields)<br/>
       &nbsp; &nbsp; &nbsp; or an array of above parameters (multiple nested groups)<br/>
-      <code>aggregates</code> - represent a javascript object of specific fields aggregates<br/>
+      <code>aggregates</code> - represent a javascript object of calculated field aggregates<br/>
       &nbsp; &nbsp; &nbsp; where the key is aggregate name (<code>sum</code>, <code>min</code>, <code>max</code>)<br/>
       &nbsp; &nbsp; &nbsp; and value is array of field names or/and objects that represent custom field<br/>
       &nbsp; &nbsp; &nbsp; (<code>{custom_field:function(e){ return e.SomeField; }}</code>)<br/>
