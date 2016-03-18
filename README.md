@@ -79,7 +79,31 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
   <tr>
     <td colspan="2">
 <pre lang="javascript">
-
+var data = [
+            { year:2015, name:'a' },
+            { year:2016, name:'a' },
+            { year:2015, name:'b' }
+          ];
+var grouped_data = smarti.data.group(data, 'year');
+//returns 
+//[
+//  {
+//    "items":[{"year":2015,"name":"a"},{"year":2015,"name":"b"}],
+//    "level":0,
+//    "value":2015,
+//    "count":2,
+//    "first":{"year":2015,"name":"a"},
+//    "last":{"year":2015,"name":"b"}
+//  },
+//  {
+//    "items":[{"year":2016,"name":"a"}],
+//    "level":0,
+//    "value":2016,
+//    "count":1,
+//    "first":{"year":2016,"name":"a"},
+//    "last":{"year":2016,"name":"a"}
+//  }
+//]
 </pre>
     </td>
   </tr>
