@@ -31,13 +31,14 @@ smarti.data = {
 		}
 	},
 	group: function (data, by, aggregates) {
-		if (data && data.length > 0 && by) {
-			var g = [].concat(by), m = {}, f = '', gd = [], p = null, ag = {}, af = '';
+		if (data && data.length > 0 && (by || aggregates)) {
+			var m = {}, f = '', gd = [], p = null, ag = {}, af = '';
 			if (aggregates) {
-				var sum = function (d, f) { smarti.data._sum(p.sum, ag.sum[f](d), f); }
-				var min = function (d, f) { smarti.data._min(p.min, ag.min[f](d), f); }
-				var max = function (d, f) { smarti.data._max(p.max, ag.max[f](d), f); }
-				//avg, custom
+				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f](d), f); }
+				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f](d), f); }
+				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f](d), f); }
+				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p.custom[f]); }
+				//avg
 				for (var a in aggregates) {
 					ag[a] = {};
 					var aggr = [].concat(aggregates[a]);
@@ -49,27 +50,34 @@ smarti.data = {
 							ag[a][kk] = k[kk];
 							k = kk;
 						}
-						if (['sum', 'min', 'max'].indexOf(a) >= 0) af += a + "(d,'" + k.replace(/'/g, "\\'") + "');";
+						if (['sum', 'min', 'max', 'custom'].indexOf(a) >= 0) af += a + "(i,d,'" + k.replace(/'/g, "\\'") + "');";
 					}
 				}
 			}
-			var gf = function (i, d, v) {
-				v.push(g[i].call(d, d));
-				var k = JSON.stringify(v);
-				if (!m[k]) {
-					m[k] = { items: [], level: i, value: v[i], count: 0, first: d, sum: {}, min: {}, max: {}, avg: {}, custom: {} }
-					if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
+			if (by) {
+				var g = [].concat(by);
+				var gf = function (i, d, v) {
+					v.push(g[i].call(d, d));
+					var k = JSON.stringify(v);
+					if (!m[k]) {
+						m[k] = { items: [], level: i, value: v[i], count: 0, first: d, sum: {}, min: {}, max: {}, custom: {} };
+						if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
+					}
+					p = m[k];
+					p.last = d;
+					p.count++;
+					if (i == g.length - 1) p.items.push(d);
 				}
-				p = m[k];
-				p.last = d;
-				p.count++;
-				if (i == g.length - 1) p.items.push(d);
+				for (var i = 0; i < g.length; i++) {
+					if (typeof g[i] == 'string') g[i] = this.getter(g[i]);
+					f += 'gf(' + i + ',d,v);' + af;
+				}
+				f = eval('(function(i,d){var v=[];' + f + '})');
 			}
-			for (var i = 0; i < g.length; i++) {
-				if (typeof g[i] == 'string') g[i] = this.getter(g[i]);
-				f += 'gf(' + i + ',d,v);' + af;
+			else {
+				gd = p = { items: data, count: data.length, sum: {}, min: {}, max: {}, custom: {} };
+				f = eval('(function(i,d){' + af + '})');
 			}
-			f = eval('(function(i,d){var v=[];' + f + '})');
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
 			return gd;
 		}
