@@ -31,7 +31,7 @@ smarti.data = {
 		}
 	},
 	group: function (data, by, aggregates) {
-		if (data && data.length > 0 && (by || aggregates)) {
+		if (data && (by || aggregates)) {
 			var m = {}, f = '', gd = [], p = null, ag = {}, af = '';
 			if (aggregates) {
 				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f](d), f); }
@@ -75,7 +75,8 @@ smarti.data = {
 				f = eval('(function(i,d){var v=[];' + f + '})');
 			}
 			else {
-				gd = p = { items: data, count: data.length, sum: {}, min: {}, max: {}, custom: {} };
+				gd = [{ items: data, count: data.length, sum: {}, min: {}, max: {}, custom: {} }];
+				p = gd[0];
 				f = eval('(function(i,d){' + af + '})');
 			}
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
