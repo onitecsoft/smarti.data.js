@@ -76,9 +76,9 @@ smarti.data = {
 				f = eval('(function(i,d){var v=[];' + f + '})');
 			}
 			else {
-				gd = [{ items: data, count: data.length, sum: {}, min: {}, max: {}, custom: {} }];
+				gd = [{ items: data, count: data.length, first: data[0] || {}, last: {}, sum: {}, min: {}, max: {}, custom: {} }];
 				p = gd[0];
-				f = eval('(function(i,d){' + af + '})');
+				f = eval('(function(i,d){p.last=d;' + af + '})');
 			}
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
 			return gd;
