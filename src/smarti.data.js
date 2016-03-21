@@ -34,9 +34,9 @@ smarti.data = {
 		if (data && (by || aggregates)) {
 			var m = {}, f = '', gd = [], p = null, ag = {}, af = '';
 			if (aggregates) {
-				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f](d), f); }
-				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f](d), f); }
-				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f](d), f); }
+				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f].call(d, d), f); }
+				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f].call(d, d), f); }
+				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f].call(d, d), f); }
 				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p.custom[f]); }
 				//avg
 				for (var a in aggregates) {
@@ -50,7 +50,8 @@ smarti.data = {
 							ag[a][kk] = k[kk];
 							k = kk;
 						}
-						if (['sum', 'min', 'max', 'custom'].indexOf(a) >= 0) af += a + "(i,d,'" + k.replace(/'/g, "\\'") + "');";
+						var ff = a + "(i,d,'" + k.replace(/'/g, "\\'") + "');";
+						if (['sum', 'min', 'max', 'custom'].indexOf(a) >= 0 && af.indexOf(ff) == -1) af += ff;
 					}
 				}
 			}
