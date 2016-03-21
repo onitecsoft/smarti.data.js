@@ -139,7 +139,7 @@ smarti.data = {
 	},
 	_sum: function (o, v, f) {
 		if (o[f] == null) o[f] = v;
-		else if (v != null) o[f] += v;
+		else if (v) o[f] += v;
 	},
 	_ns: function (str, cs) {
 		var s = str != null ? str.toString() : '';
