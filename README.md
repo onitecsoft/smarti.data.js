@@ -75,8 +75,8 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
       &nbsp; &nbsp; &nbsp; and value is array of field names or/and objects that represent custom field<br/>
       &nbsp; &nbsp; &nbsp; (<code>{custom_field:function(e){ return e.SomeField; }}</code>)<br/>
       custom aggregate function parameters are:<br/>
-      &nbsp; &nbsp; &nbsp; index, item and previously calculated aggregate value<br/>
-      &nbsp; &nbsp; &nbsp; (<code>{custom_field:function(i,item,value){ return item.SomeField + value; }}</code>)<br/>
+      &nbsp; &nbsp; &nbsp; index, item and group with previously calculated aggregates<br/>
+      &nbsp; &nbsp; &nbsp; (<code>{custom_field:function(i,item,group){ return item.SomeField + group.custom.custom_field; }}</code>)<br/>
       <b>NB!</b> grouping does not change order of items, so supposed data is sorted already</td>
   </tr>
   <tr>
