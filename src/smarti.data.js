@@ -32,14 +32,17 @@ smarti.data = {
 	},
 	group: function (data, by, aggregates) {
 		if (data && (by || aggregates)) {
-			var m = {}, f = '', gd = [], p = null, ag = {}, af = '';
+			var m = {}, f = '', gd = [], p = null, ag = {}, af = '', ap = '', aa = [];
 			if (aggregates) {
 				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f].call(d, d), f); }
 				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f].call(d, d), f); }
 				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f].call(d, d), f); }
 				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p.custom[f]); }
-				//avg
+				var avg = function (i, d, f) { smarti.data._sum(p.avg, ag.avg[f].call(d, d), f); }
+				var pavg = function (g, f) { g.avg[f] /= g.count; }
+				var post = function (a, g, f) { g[a][f] = ag[a][f].call(g[a], g[a]); }
 				for (var a in aggregates) {
+					aa.push(a);
 					ag[a] = {};
 					var aggr = [].concat(aggregates[a]);
 					for (var i = 0; i < aggr.length; i++) {
@@ -50,8 +53,11 @@ smarti.data = {
 							ag[a][kk] = k[kk];
 							k = kk;
 						}
-						var ff = a + "(i,d,'" + k.replace(/'/g, "\\'") + "');";
-						if (['sum', 'min', 'max', 'custom'].indexOf(a) >= 0 && af.indexOf(ff) == -1) af += ff;
+						k = k.replace(/'/g, "\\'");
+						var ff = a + "(i,d,'" + k + "');";
+						if (a == 'avg') ap += "pavg(g,'" + k + "');";
+						if (['sum', 'avg', 'min', 'max', 'custom'].indexOf(a) >= 0 && af.indexOf(ff) == -1) af += ff;
+						else ap += "post('" + a + "',g,'" + k + "');";
 					}
 				}
 			}
@@ -61,7 +67,7 @@ smarti.data = {
 					v.push(g[i].call(d, d));
 					var k = JSON.stringify(v);
 					if (!m[k]) {
-						m[k] = { items: [], level: i, value: v[i], count: 0, first: d, sum: {}, min: {}, max: {}, custom: {} };
+						m[k] = new smarti.data._group(i, d, aa, v[i]);
 						if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
 					}
 					p = m[k];
@@ -76,14 +82,25 @@ smarti.data = {
 				f = eval('(function(i,d){var v=[];' + f + '})');
 			}
 			else {
-				gd = [{ items: data, count: data.length, first: data[0] || {}, last: {}, sum: {}, min: {}, max: {}, custom: {} }];
+				gd = [new smarti.data._group(0, data[0] || {}, aa)];
 				p = gd[0];
+				p.items = data;
+				p.count = data.length;
 				f = eval('(function(i,d){p.last=d;' + af + '})');
 			}
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
+			if (ap) this.groups(gd, eval('(function(g){' + ap + '})'));
 			return gd;
 		}
 		return data;
+	},
+	groups: function (groups, callback) {
+		if (groups && callback && groups[0] instanceof smarti.data._group) {
+			for (var i = 0; i < groups.length; i++) {
+				callback(groups[i]);
+				this.groups(groups[i].items, callback);
+			}
+		}
 	},
 	filter: function (data, filters) {
 		if (data && data.length > 0) {
@@ -121,6 +138,15 @@ smarti.data = {
 		var s = this._ns(str, cs);
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
+	},
+	_group: function (i, d, a, v) {
+		for (var k = 0; k < a.length; k++) this[a[k]] = {};
+		this.items = [];
+		this.level = i;
+		if (arguments.length > 3) this.value = v;
+		this.count = 0;
+		this.first = d;
+		return this;
 	},
 	_aggr: function (d, f, a) {
 		var m = { v: undefined };
