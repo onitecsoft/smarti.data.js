@@ -1,3 +1,5 @@
+var smarti = window['smarti'] || {};
+
 smarti.data = {
 	getter: function (property) {
 		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
@@ -37,7 +39,7 @@ smarti.data = {
 				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f].call(d, d), f); }
 				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f].call(d, d), f); }
 				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f].call(d, d), f); }
-				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p.custom[f]); }
+				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p); }
 				var avg = function (i, d, f) { smarti.data._sum(p.avg, ag.avg[f].call(d, d), f); }
 				var pavg = function (g, f) { g.avg[f] /= g.count; }
 				var post = function (a, g, f) { g[a][f] = ag[a][f].call(g[a], g[a]); }
@@ -63,11 +65,8 @@ smarti.data = {
 			}
 			var g = [].concat(by);
 			var gf = function (i, d, v) {
-				var k = '';
-				if (g[i]) {
-					v.push(g[i].call(d, d));
-					k = JSON.stringify(v);
-				}
+				v.push(g[i] ? g[i].call(d, d) : '');
+				var k = JSON.stringify(v);
 				if (!m[k]) {
 					m[k] = new smarti.data._group(i, d, aa);
 					if (g[i]) m[k].value = v[i];
