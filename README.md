@@ -131,10 +131,6 @@ groupedData = smarti.data.group(data, 'year', {
     <td>recursively iterates data grouped with <code>smarti.data.group</code><br/><code>callback</code> - callback function for each group (<code>function(group){ ... }</code>)</td>
   </tr>
   <tr>
-    <td><b>filter(data, filters)</b></td>
-    <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
-  </tr>
-  <tr>
     <td colspan="2">
 <pre lang="javascript">
 var data = [
@@ -143,9 +139,13 @@ var data = [
             { year:2015, name:'b', amount:3 }
           ];
 var groupedData = smarti.data.group(data, 'year', { sum:'amount' });
-smarti.data.groups(groupedData, function(g){  });
+smarti.data.groups(groupedData, function(g){ g.customField = g.sum.amount * 10; });
 </pre>
     </td>
+  </tr>
+  <tr>
+    <td><b>filter(data, filters)</b></td>
+    <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
   </tr>
   <tr>
     <td colspan="2">
