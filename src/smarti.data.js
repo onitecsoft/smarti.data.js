@@ -31,7 +31,7 @@ smarti.data = {
 		}
 	},
 	group: function (data, by, aggregates) {
-		if (data && (by || aggregates)) {
+		if (data) {
 			var m = {}, f = '', gd = [], p = null, ag = {}, af = '', ap = '', aa = [];
 			if (aggregates) {
 				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f].call(d, d), f); }
@@ -61,33 +61,29 @@ smarti.data = {
 					}
 				}
 			}
-			if (by) {
-				var g = [].concat(by);
-				var gf = function (i, d, v) {
+			var g = [].concat(by);
+			var gf = function (i, d, v) {
+				var k = '';
+				if (g[i]) {
 					v.push(g[i].call(d, d));
-					var k = JSON.stringify(v);
-					if (!m[k]) {
-						m[k] = new smarti.data._group(i, d, aa, v[i]);
-						if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
-					}
-					p = m[k];
-					p.last = d;
-					p.count++;
-					if (i == g.length - 1) p.items.push(d);
+					k = JSON.stringify(v);
 				}
-				for (var i = 0; i < g.length; i++) {
-					if (typeof g[i] == 'string') g[i] = this.getter(g[i]);
-					f += 'gf(' + i + ',d,v);' + af;
+				if (!m[k]) {
+					m[k] = new smarti.data._group(i, d, aa);
+					if (g[i]) m[k].value = v[i];
+					if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
 				}
-				f = eval('(function(i,d){var v=[];' + f + '})');
+				p = m[k];
+				p.last = d;
+				p.count++;
+				if (i == g.length - 1) p.items.push(d);
 			}
-			else {
-				gd = [new smarti.data._group(0, data[0] || {}, aa)];
-				p = gd[0];
-				p.items = data;
-				p.count = data.length;
-				f = eval('(function(i,d){p.last=d;' + af + '})');
+			for (var i = 0; i < g.length; i++) {
+				if (g && typeof g[i] == 'string') g[i] = this.getter(g[i]);
+				f += 'gf(' + i + ',d,v);' + af;
 			}
+			f = eval('(function(i,d){var v=[];' + f + '})');
+
 			for (var i = 0; i < data.length; i++) f(i, data[i]);
 			if (ap) this.groups(gd, eval('(function(g){' + ap + '})'));
 			return gd;
@@ -139,11 +135,10 @@ smarti.data = {
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
 	},
-	_group: function (i, d, a, v) {
+	_group: function (i, d, a) {
 		for (var k = 0; k < a.length; k++) this[a[k]] = {};
 		this.items = [];
 		this.level = i;
-		if (arguments.length > 3) this.value = v;
 		this.count = 0;
 		this.first = d;
 		return this;
