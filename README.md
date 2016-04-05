@@ -1,6 +1,6 @@
 # smarti.data.js
 
-JavaScript helper for data processing.
+JavaScript helper for data processing (sorting, grouping, filtering, aggregates, searching).
 
 [Download](https://raw.githubusercontent.com/onitecsoft/smarti.data.js/master/src/smarti.data.js)
 
