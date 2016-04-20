@@ -144,8 +144,8 @@ smarti.data.groups(groupedData, function(g){ g.customField = g.sum.amount * 10; 
     </td>
   </tr>
   <tr>
-    <td><b>filter(data, filters)</b></td>
-    <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions (can have named indexes)<br/>conditions are concatenated with <code>&&</code> operator</td>
+    <td><b>filter(data, filters, operator)</b></td>
+    <td>returns filtered data<br/><code>filters</code> - condition or array of conditions represented by functions<br/><code>operator</code> - operator to concatenate multiple conditions (<code>and</code>, <code>or</code>). Default <code>and</code> </td>
   </tr>
   <tr>
     <td colspan="2">
@@ -156,11 +156,10 @@ var data = [
             { id:3, name:'b' }
           ];
 var filteredData = smarti.data.filter(data, function(e){ return e.id > 1; });
-var filteredData = smarti.data.filter(data, { filter1:function(e){ return e.id > 1; } });
-var filteredData = smarti.data.filter(data, [
+filteredData = smarti.data.filter(data, [
   function(e){ return e.id == 1; },
   function(e){ return e.name == 'a'; }
-]);
+], 'or');
 </pre>
     </td>
   </tr>
