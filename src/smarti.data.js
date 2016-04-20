@@ -1,5 +1,3 @@
-var smarti = window['smarti'] || {};
-
 smarti.data = {
 	getter: function (property) {
 		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
@@ -97,14 +95,14 @@ smarti.data = {
 			}
 		}
 	},
-	filter: function (data, filters) {
-		if (data && data.length > 0) {
-			if (typeof filters === 'function') filters = [filters];
+	filter: function (data, filters, operator) {
+		if (data && data.length > 0 && filters) {
 			var f = [];
-			for (var i in filters) if (typeof filters[i] === 'function') f.push('filters["' + i + '"](o)');
+			filters = [].concat(filters);
+			for (var i = 0; i < filters.length; i++) f.push('filters["' + i + '"].call(o,o)');
 			if (f.length > 0) {
 				var d = [];
-				f = eval('(function(o){return ' + f.join('&&') + '})');
+				f = eval('(function(o){return ' + f.join(operator == 'or' ? '||' : '&&') + '})');
 				for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
 				return d;
 			}
