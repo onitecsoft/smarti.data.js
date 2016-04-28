@@ -1,13 +1,13 @@
 smarti.data = {
+	_getter: function (p, f) {
+		if (f) return function (o) { var r = f(o); return r && r[p]; }
+		else return function (o) { return o[p]; }
+	},
 	getter: function (property) {
 		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
-		if (a.length > 1) {
-			var q = [];
-			for (var i = 0; i < a.length; i++) q.push((i > 0 ? q[i - 1] : 'o') + '[a[' + i + ']]');
-			var v = q.pop();
-			return eval('(function(o){return ' + q.join('&&') + '&&' + v + ';})');
-		}
-		else return function (o) { return o[a[0]]; };
+		var f = null;
+		for (var i = 0; i < a.length; i++) f = this._getter(a[i], f);
+		return f;
 	},
 	get: function (property, dataItem) {
 		return this.getter(property)(dataItem);
