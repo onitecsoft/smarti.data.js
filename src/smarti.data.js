@@ -1,8 +1,6 @@
+var smarti = window['smarti'] || {};
+
 smarti.data = {
-	_getter: function (p, f) {
-		if (f) return function (o) { var r = f(o); return r && r[p]; }
-		else return function (o) { return o[p]; }
-	},
 	getter: function (property) {
 		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
 		var f = null;
@@ -19,14 +17,13 @@ smarti.data = {
 				else data.sort(function (x, y) { return x > y; });
 			}
 			else {
-				var s = [].concat(options);
-				var f = '';
+				var s = [].concat(options), f = null;
 				for (var i = 0; i < s.length; i++) {
 					var d = s[i].dir == 'desc' ? -1 : 1;
 					if (!s[i].method) s[i].method = this.getter(s[i].field);
-					f += 'sx=s[' + i + '].method.call(x,x);sy=s[' + i + '].method.call(y,y);if(sx>sy)return ' + d + ';if(sx<sy)return ' + -d + ';';
+					f = this._sortf(s[i].method, d, f);
 				}
-				data.sort(eval('(function(x,y){var gx,gy;' + f + '})'));
+				data.sort(f);
 			}
 		}
 	},
@@ -100,11 +97,11 @@ smarti.data = {
 			filters = [].concat(filters);
 			if (filters.length > 0) {
 				var d = [];
-				var or = operator == 'or';
-				var f = function (o) {
-					for (var j = 0; j < filters.length; j++) if (filters[j].call(o, o) == or) return or;
-					return !or;
-				}
+				var f = operator == 'or' ? function (o) {
+					for (var j = 0; j < filters.length; j++) if (filters[j].call(o, o)) return true; return false;
+				} : function (o) {
+					for (var j = 0; j < filters.length; j++) if (!filters[j].call(o, o)) return false; return true;
+				};
 				for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
 				return d;
 			}
@@ -133,6 +130,20 @@ smarti.data = {
 		var s = this._ns(str, cs);
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
+	},
+	_getter: function (p, f) {
+		if (f) return function (o) { var r = f(o); return r && r[p]; }
+		else return function (o) { return o[p]; }
+	},
+	_sortf: function (m, d, f) {
+		var sf = function (x, y) {
+			var sx = m.call(x, x), sy = m.call(y, y);
+			if (sy === undefined || sx > sy) return d;
+			if (sx === undefined || sx < sy) return -d;
+			return 0;
+		}
+		if (f) return function (x, y) { return f(x, y) || sf(x, y); }
+		else return sf;
 	},
 	_group: function (i, d, a) {
 		for (var k = 0; k < a.length; k++) this[a[k]] = {};
