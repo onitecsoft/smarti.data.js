@@ -97,12 +97,14 @@ smarti.data = {
 	},
 	filter: function (data, filters, operator) {
 		if (data && data.length > 0 && filters) {
-			var f = [];
 			filters = [].concat(filters);
-			for (var i = 0; i < filters.length; i++) f.push('filters["' + i + '"].call(o,o)');
-			if (f.length > 0) {
+			if (filters.length > 0) {
 				var d = [];
-				f = eval('(function(o){return ' + f.join(operator == 'or' ? '||' : '&&') + '})');
+				var or = operator == 'or';
+				var f = function (o) {
+					for (var j = 0; j < filters.length; j++) if (filters[j].call(o, o) == or) return or;
+					return !or;
+				}
 				for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
 				return d;
 			}
