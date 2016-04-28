@@ -29,11 +29,15 @@ getter = smarti.data.getter('some\\.property');
   </tr>
   <tr>
     <td><b>get(property, dataItem)</b></td>
-    <td>returns value of any nested object property</td>
+    <td>returns value of any nested object property<br/>it is wrapper for <code>smarti.data.getter(property)(dataItem)</code></td>
   </tr>
   <tr>
     <td colspan="2">
-      <pre lang="javascript">var name = smarti.data.get('Name', dataItem);</pre>
+<pre lang="javascript">
+var name = smarti.data.get('Name', dataItem);
+smarti.data.get('a.b.', { a: { b: 'ab' } }); //return 'ab'
+smarti.data.get('aa.b', { a: { b: 'ab' } }); //return undefined
+</pre>
     </td>
   </tr>
   <tr>
