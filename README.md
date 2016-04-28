@@ -35,8 +35,8 @@ getter = smarti.data.getter('some\\.property');
     <td colspan="2">
 <pre lang="javascript">
 var name = smarti.data.get('Name', dataItem);
-smarti.data.get('a.b.', { a: { b: 'ab' } }); //return 'ab'
-smarti.data.get('aa.b', { a: { b: 'ab' } }); //return undefined
+smarti.data.get('a.b', { a: { b: 'ab' } }); //returns ab
+smarti.data.get('aa.b', { a: { b: 'ab' } }); //returns undefined
 </pre>
     </td>
   </tr>
