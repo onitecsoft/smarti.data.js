@@ -15,7 +15,7 @@ JavaScript helper for data processing (sorting, grouping, filtering, aggregates,
   </thead>
   <tr>
     <td><b>getter(property)</b></td>
-    <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)</td>
+    <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)<br/><b>method is safe for case if parent property is not set</b></td>
   </tr>
   <tr>
     <td colspan="2">
