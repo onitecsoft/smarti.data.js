@@ -83,7 +83,8 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
 {
   sum: ['Amount', {custom_field: function(e){ return e.SomeField; } }],
   custom: [function(i, item, group){
-    group.custom.some_field = (group.custom.some_field || 0) + item.Amount;
+    //custom implementation of sum aggregate
+    group.custom.total = (group.custom.total || 0) + item.Amount;
   }]
 }</pre>
       <b>NB!</b> grouping does not change order of items, so supposed data is sorted already</td>
