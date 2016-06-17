@@ -29,57 +29,50 @@ smarti.data = {
 	},
 	group: function (data, by, aggregates) {
 		if (data) {
-			var m = {}, f = '', gd = [], p = null, ag = {}, af = '', ap = '', aa = [];
+			var afs = [], gd = [], m = {}, aa = [], f = '';
 			if (aggregates) {
-				var sum = function (i, d, f) { smarti.data._sum(p.sum, ag.sum[f].call(d, d), f); }
-				var min = function (i, d, f) { smarti.data._min(p.min, ag.min[f].call(d, d), f); }
-				var max = function (i, d, f) { smarti.data._max(p.max, ag.max[f].call(d, d), f); }
-				var custom = function (i, d, f) { p.custom[f] = ag.custom[f](i, d, p); }
-				var avg = function (i, d, f) { smarti.data._sum(p.avg, ag.avg[f].call(d, d), f); }
-				var pavg = function (g, f) { g.avg[f] /= g.count; }
-				var post = function (a, g, f) { g[a][f] = ag[a][f].call(g[a], g[a]); }
+				var af = function (a, f, fg, fs) {
+					if (fs.indexOf(f) == -1) {
+						var fn = a == 'avg' ? '_sum' : '_' + a;
+						afs.push(function (i, d, g) { smarti.data[fn](g[a], fg(d), f); });
+						fs.push(f);
+					}
+				}
 				for (var a in aggregates) {
 					aa.push(a);
-					ag[a] = {};
-					var aggr = [].concat(aggregates[a]);
-					for (var i = 0; i < aggr.length; i++) {
-						var k = aggr[i];
-						if (typeof k == 'string') ag[a][k] = this.getter(k);
-						else {
-							for (kk in k);
-							ag[a][kk] = k[kk];
-							k = kk;
+					if (a == 'custom') afs = [].concat(aggregates[a]);
+					else if (['sum', 'avg', 'min', 'max'].indexOf(a) >= 0) {
+						var ap = [].concat(aggregates[a]), fs = [];
+						for (var i = 0; i < ap.length; i++) {
+							if (typeof ap[i] == 'string') af(a, ap[i], this.getter(ap[i]), fs);
+							else for (var j in ap[i]) af(a, j, ap[i][j], fs);
 						}
-						k = k.replace(/'/g, "\\'");
-						var ff = a + "(i,d,'" + k + "');";
-						if (a == 'avg') ap += "pavg(g,'" + k + "');";
-						if (['sum', 'avg', 'min', 'max', 'custom'].indexOf(a) >= 0 && af.indexOf(ff) == -1) af += ff;
-						else ap += "post('" + a + "',g,'" + k + "');";
 					}
 				}
 			}
-			var g = [].concat(by);
-			var gf = function (i, d, v) {
-				v.push(g[i] ? g[i].call(d, d) : '');
+			var gg = [].concat(by);
+			var gf = function (d, v, g) {
+				var n = v.length;
+				v.push(gg[n] ? gg[n](d) : '');
 				var k = JSON.stringify(v);
 				if (!m[k]) {
-					m[k] = new smarti.data._group(i, d, aa);
-					if (g[i]) m[k].value = v[i];
-					if (i == 0) gd.push(m[k]); else p.items.push(m[k]);
+					m[k] = new smarti.data._group(n, d, aa);
+					if (gg[n]) m[k].value = v[n];
+					if (g) g.items.push(m[k]); else gd.push(m[k]);
 				}
-				p = m[k];
-				p.last = d;
-				p.count++;
-				if (i == g.length - 1) p.items.push(d);
+				m[k].last = d;
+				m[k].count++;
+				if (n == gg.length - 1) m[k].items.push(d);
+				return m[k];
 			}
-			for (var i = 0; i < g.length; i++) {
-				if (g && typeof g[i] == 'string') g[i] = this.getter(g[i]);
-				f += 'gf(' + i + ',d,v);' + af;
+			for (var i = 0; i < gg.length; i++) {
+				if (gg && typeof gg[i] == 'string') gg[i] = this.getter(gg[i]);
+				f += 'g=gf(d,v,g);';
+				for (var j = 0; j < afs.length; j++) f += 'afs[' + j + '](i,d,g);';
 			}
-			f = eval('(function(i,d){var v=[];' + f + '})');
-
-			for (var i = 0; i < data.length; i++) f(i, data[i]);
-			if (ap) this.groups(gd, eval('(function(g){' + ap + '})'));
+			f = eval('(function(i,d){var v=[],g=null;' + f + '})');
+			for (var i = 0, c = data.length; i < c; i++) f(i, data[i]);
+			if (gd[0].avg) this.groups(gd, function (g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
 			return gd;
 		}
 		return data;
