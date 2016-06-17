@@ -77,10 +77,10 @@ smarti.data.sort(data, { method:function(e){ return e.id.toString() } });
       <code>aggregates</code> - represent a javascript object of calculated field aggregates<br/>
       &nbsp; &nbsp; &nbsp; where the key is aggregate name (<code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>, <code>custom</code>)<br/>
       &nbsp; &nbsp; &nbsp; and value is array of field names or/and objects that represent custom field<br/>
-      &nbsp; &nbsp; &nbsp; (<code>{
-        sum: ['Amount',{custom_field:function(e){ return e.SomeField; }}],
+      &nbsp; &nbsp; &nbsp; (<pre lang="javascript">{
+      sum: ['Amount',{custom_field:function(e){ return e.SomeField; }}],
         custom:[function(i,item,group){ group.custom.some_field = (group.custom.some_field||0) + item.Amount; }]
-      }</code>)<br/>
+      }</pre>)<br/>
       <b>NB!</b> grouping does not change order of items, so supposed data is sorted already</td>
   </tr>
   <tr>
