@@ -40,7 +40,7 @@ smarti.data = {
 				}
 				for (var a in aggregates) {
 					aa.push(a);
-					if (a == 'custom') afs = [].concat(aggregates[a]);
+					if (a == 'custom') afs = afs.concat(aggregates[a]);
 					else if (['sum', 'avg', 'min', 'max'].indexOf(a) >= 0) {
 						var ap = [].concat(aggregates[a]), fs = [];
 						for (var i = 0; i < ap.length; i++) {
