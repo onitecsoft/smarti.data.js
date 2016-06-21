@@ -138,7 +138,7 @@ groupedData = smarti.data.group(data, 'year', {
   </tr>
   <tr>
     <td><b>groups(groups, callback)</b></td>
-    <td>recursively iterates data grouped with <code>smarti.data.group</code><br/><code>callback</code> - callback function for each group (<code>function(group){ ... }</code>)</td>
+    <td>recursively iterates data grouped with <code>smarti.data.group</code><br/><code>callback</code> - callback function for each group (<code>function(index, group){ ... }</code>)</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -149,7 +149,7 @@ var data = [
             { year:2015, name:'b', amount:3 }
           ];
 var groupedData = smarti.data.group(data, 'year', { sum:'amount' });
-smarti.data.groups(groupedData, function(g){ g.customField = g.sum.amount * 10; });
+smarti.data.groups(groupedData, function(i, g){ g.customField = g.sum.amount * 10; });
 </pre>
     </td>
   </tr>
