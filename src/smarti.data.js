@@ -72,7 +72,7 @@ smarti.data = {
 			}
 			f = eval('(function(i,d){var v=[],g=null;' + f + '})');
 			for (var i = 0, c = data.length; i < c; i++) f(i, data[i]);
-			if (gd[0].avg) this.groups(gd, function (g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
+			if (gd[0].avg) this.groups(gd, function (k, g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
 			return gd;
 		}
 		return data;
@@ -80,7 +80,7 @@ smarti.data = {
 	groups: function (groups, callback) {
 		if (groups && callback && groups[0] instanceof smarti.data._group) {
 			for (var i = 0; i < groups.length; i++) {
-				callback(groups[i]);
+				callback(i, groups[i]);
 				this.groups(groups[i].items, callback);
 			}
 		}
