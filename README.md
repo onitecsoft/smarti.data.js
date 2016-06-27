@@ -22,8 +22,8 @@ JavaScript helper for data processing (sorting, grouping, filtering, aggregates,
 <pre lang="javascript">
 var dataItem = { Name: 'Some name' };
 var getter = smarti.data.getter('Name');
-var name = getter(dataItem); // return 'Some name'
-var name = getter(dataItem, 'New name'); // return 'New name'
+var name = getter(dataItem); // returns 'Some name'
+var name = getter(dataItem, 'New name'); // returns 'New name'
 getter = smarti.data.getter('Address.City');
 getter = smarti.data.getter('some\\.property');
 </pre>
