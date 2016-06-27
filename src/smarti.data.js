@@ -4,7 +4,7 @@ smarti.data = {
 	getter: function (property) {
 		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
 		var f = null;
-		for (var i = 0; i < a.length; i++) f = this._getter(a[i], f);
+		for (var i = 0; i < a.length; i++) f = this._g(a[i], f, i + 1 < a.length);
 		return f;
 	},
 	get: function (property, dataItem) {
@@ -32,16 +32,17 @@ smarti.data = {
 			var afs = [], gd = [], m = {}, aa = [], f = '';
 			if (aggregates) {
 				var af = function (a, f, fg, fs) {
+					var s = smarti.data.getter(f);
 					if (fs.indexOf(f) == -1) {
 						var fn = a == 'avg' ? '_sum' : '_' + a;
-						afs.push(function (i, d, g) { smarti.data[fn](g[a], fg(d), f); });
+						afs.push(function (i, d, g) { smarti.data[fn](g[a], fg(d), s); });
 						fs.push(f);
 					}
 				}
 				for (var a in aggregates) {
-					aa.push(a);
-					if (a == 'custom') afs = afs.concat(aggregates[a]);
+					if (a == 'custom') afs = afs.concat(custom);
 					else if (['sum', 'avg', 'min', 'max'].indexOf(a) >= 0) {
+						aa.push(a);
 						var ap = [].concat(aggregates[a]), fs = [];
 						for (var i = 0; i < ap.length; i++) {
 							if (typeof ap[i] == 'string') af(a, ap[i], this.getter(ap[i]), fs);
@@ -95,7 +96,7 @@ smarti.data = {
 				} : function (o) {
 					for (var j = 0; j < filters.length; j++) if (!filters[j].call(o, o)) return false; return true;
 				};
-				for (var i = 0; i < data.length; i++) if (f(data[i])) d.push(data[i]);
+				for (var i = 0, c = data.length; i < c; i++) if (f(data[i])) d.push(data[i]);
 				return d;
 			}
 		}
@@ -124,9 +125,9 @@ smarti.data = {
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
 	},
-	_getter: function (p, f) {
-		if (f) return function (o) { var r = f(o); return r && r[p]; }
-		else return function (o) { return o[p]; }
+	_g: function (p, f, d) {
+		if (f) return function (o, v) { var r = f(o, v); if (v !== undefined) r[p] = d ? r[p] || {} : v; return r && r[p]; }
+		else return function (o, v) { if (v !== undefined) o[p] = d ? o[p] || {} : v; return o[p]; }
 	},
 	_sortf: function (m, d, f) {
 		var sf = function (x, y) {
@@ -150,20 +151,23 @@ smarti.data = {
 		var m = { v: undefined };
 		if (d && d.length > 0) {
 			var g = f ? this.getter(f) : null;
-			if (g) for (var i = 0; i < d.length; i++) a(m, g(d[i]), 'v');
-			else for (var i = 0; i < d.length; i++) a(m, d[i], 'v');
+			if (g) for (var i = 0, c = d.length; i < c; i++) a(m, g(d[i]), this.getter('v'));
+			else for (var i = 0, c = d.length; i < c; i++) a(m, d[i], this.getter('v'));
 		}
 		return m.v;
 	},
-	_max: function (o, v, f) {
-		if (o[f] === undefined || v > o[f]) o[f] = v;
+	_max: function (o, v, g) {
+		var r = g(o);
+		if (r === undefined || v > r) g(o, v);
 	},
-	_min: function (o, v, f) {
-		if (o[f] === undefined || v < o[f]) o[f] = v;
+	_min: function (o, v, g) {
+		var r = g(o);
+		if (r === undefined || v < r) g(o, v);
 	},
-	_sum: function (o, v, f) {
-		if (o[f] == null) o[f] = v;
-		else if (v) o[f] += v;
+	_sum: function (o, v, g) {
+		var r = g(o);
+		if (r == null) g(o, v);
+		else if (v) g(o, r + v);
 	},
 	_ns: function (str, cs) {
 		var s = str != null ? str.toString() : '';
