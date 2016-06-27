@@ -15,13 +15,15 @@ JavaScript helper for data processing (sorting, grouping, filtering, aggregates,
   </thead>
   <tr>
     <td><b>getter(property)</b></td>
-    <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)<br/><b>method is safe for case if parent property is not set</b></td>
+    <td>returns value getter function for any nested object property<br/>if property name contains dot, use double backslash to escape it (<code>some\\.property</code>)<br/>getter function can be used also as setter if second value argument specified.<br/><b>method is safe for case if parent property is not set</b></td>
   </tr>
   <tr>
     <td colspan="2">
 <pre lang="javascript">
+var obj = { Name: 'Some name' };
 var getter = smarti.data.getter('Name');
-var name = getter(dataItem);
+var name = getter(dataItem); // return 'Some name'
+var name = getter(dataItem, 'New name'); // return 'New name'
 getter = smarti.data.getter('Address.City');
 getter = smarti.data.getter('some\\.property');
 </pre>
