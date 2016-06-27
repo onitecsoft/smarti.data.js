@@ -27,7 +27,7 @@ smarti.data = {
 			}
 		}
 	},
-	group: function (data, by, aggregates) {
+	group: function (data, by, aggregates, callback) {
 		if (data) {
 			var afs = [], gd = [], m = {}, aa = [], f = '';
 			if (aggregates) {
@@ -40,7 +40,7 @@ smarti.data = {
 					}
 				}
 				for (var a in aggregates) {
-					if (a == 'custom') afs = afs.concat(custom);
+					if (a == 'custom') afs = afs.concat(aggregates[a]);
 					else if (['sum', 'avg', 'min', 'max'].indexOf(a) >= 0) {
 						aa.push(a);
 						var ap = [].concat(aggregates[a]), fs = [];
@@ -71,6 +71,7 @@ smarti.data = {
 				f += 'g=gf(d,v,g);';
 				for (var j = 0; j < afs.length; j++) f += 'afs[' + j + '](i,d,g);';
 			}
+			if (callback) f += 'callback(i,d,g);';
 			f = eval('(function(i,d){var v=[],g=null;' + f + '})');
 			for (var i = 0, c = data.length; i < c; i++) f(i, data[i]);
 			if (gd[0].avg) this.groups(gd, function (k, g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
