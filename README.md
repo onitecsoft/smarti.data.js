@@ -20,7 +20,7 @@ JavaScript helper for data processing (sorting, grouping, filtering, aggregates,
   <tr>
     <td colspan="2">
 <pre lang="javascript">
-var obj = { Name: 'Some name' };
+var dataItem = { Name: 'Some name' };
 var getter = smarti.data.getter('Name');
 var name = getter(dataItem); // return 'Some name'
 var name = getter(dataItem, 'New name'); // return 'New name'
