@@ -51,30 +51,33 @@ smarti.data = {
 					}
 				}
 			}
-			var gg = [].concat(by);
-			var gf = function (d, v, g) {
-				var n = v.length;
-				v.push(gg[n] ? gg[n](d) : '');
-				var k = JSON.stringify(v);
-				if (!m[k]) {
-					m[k] = new smarti.data._group(n, d, aa);
-					if (gg[n]) m[k].value = v[n];
-					if (g) g.items.push(m[k]); else gd.push(m[k]);
-				}
-				m[k].last = d;
-				m[k].count++;
-				if (n == gg.length - 1) m[k].items.push(d);
-				return m[k];
+			if (data.length > 0) {
+			    var gg = [].concat(by);
+			    var gf = function (d, v, g) {
+			        var n = v.length;
+			        v.push(gg[n] ? gg[n](d) : '');
+			        var k = JSON.stringify(v);
+			        if (!m[k]) {
+			            m[k] = new smarti.data._group(n, d, aa);
+			            if (gg[n]) m[k].value = v[n];
+			            if (g) g.items.push(m[k]); else gd.push(m[k]);
+			        }
+			        m[k].last = d;
+			        m[k].count++;
+			        if (n == gg.length - 1) m[k].items.push(d);
+			        return m[k];
+			    }
+			    for (var i = 0; i < gg.length; i++) {
+			        if (gg && typeof gg[i] == 'string') gg[i] = this.getter(gg[i]);
+			        f += 'g=gf(d,v,g);';
+			        for (var j = 0; j < afs.length; j++) f += 'afs[' + j + '](i,d,g);';
+			    }
+			    if (callback) f += 'callback(i,d,g);';
+			    f = eval('(function(i,d){var v=[],g=null;' + f + '})');
+			    for (var i = 0, c = data.length; i < c; i++) f(i, data[i]);
+			    if (gd[0].avg) this.groups(gd, function (k, g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
 			}
-			for (var i = 0; i < gg.length; i++) {
-				if (gg && typeof gg[i] == 'string') gg[i] = this.getter(gg[i]);
-				f += 'g=gf(d,v,g);';
-				for (var j = 0; j < afs.length; j++) f += 'afs[' + j + '](i,d,g);';
-			}
-			if (callback) f += 'callback(i,d,g);';
-			f = eval('(function(i,d){var v=[],g=null;' + f + '})');
-			for (var i = 0, c = data.length; i < c; i++) f(i, data[i]);
-			if (gd[0].avg) this.groups(gd, function (k, g) { for (var i in g.avg) g.avg[i] = g.avg[i] / (g.count || 1); });
+			else gd.push(new smarti.data._group(0, null, aa));
 			return gd;
 		}
 		return data;
