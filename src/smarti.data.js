@@ -10,6 +10,9 @@ smarti.data = {
 	get: function (property, dataItem) {
 		return this.getter(property)(dataItem);
 	},
+	set: function (property, dataItem, value) {
+		return this.getter(property)(dataItem, value);
+	},
 	sort: function (data, options) {
 		if (data && data.length > 0) {
 			if (options == null || typeof options == 'string') {
