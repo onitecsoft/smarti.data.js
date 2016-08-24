@@ -43,6 +43,18 @@ smarti.data.get('aa.b', { a: { b: 'ab' } }); //returns undefined
     </td>
   </tr>
   <tr>
+    <td><b>set(property, dataItem, value)</b></td>
+    <td>set value of any nested object property<br/>it is wrapper for <code>smarti.data.getter(property)(dataItem, value)</code></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+<pre lang="javascript">
+var obj = { c: 123 };
+smarti.data.set('a.b', obj, 'test'); //obj = {c: 123, a: {b: 'test'}}
+</pre>
+    </td>
+  </tr>
+  <tr>
     <td><b>sort(data, options)</b></td>
     <td>sort an array of primitive values or complex objects<br/>
       <code>options</code> can be:<br/>
