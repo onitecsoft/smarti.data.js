@@ -1,4 +1,4 @@
-var smarti = window['smarti'] || {};
+var smarti = this['smarti'] || {};
 
 smarti.data = {
 	getter: function (property) {
