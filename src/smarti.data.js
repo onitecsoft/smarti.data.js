@@ -1,4 +1,4 @@
-var smarti = this['smarti'] || {};
+var smarti = this['smarti'] || { scope: this };
 
 smarti.data = {
 	getter: function (property) {
