@@ -2,7 +2,7 @@ var smarti = this['smarti'] || { scope: this };
 
 smarti.data = {
 	getter: function (property) {
-		var a = property.replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
+		var a = property.toString().replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
 		var f = null;
 		for (var i = 0; i < a.length; i++) f = this._g(a[i], f, i + 1 < a.length);
 		return f;
