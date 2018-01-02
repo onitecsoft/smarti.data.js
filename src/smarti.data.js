@@ -20,7 +20,7 @@ smarti.data = {
 				else data.sort(function (x, y) { return x > y; });
 			}
 			else {
-				var s = [].concat(options), f = null;
+				var s = [].concat(options), f = undefined;
 				for (var i = 0; i < s.length; i++) {
 					var d = s[i].dir == 'desc' ? -1 : 1;
 					if (!s[i].method) s[i].method = this.getter(s[i].field);
