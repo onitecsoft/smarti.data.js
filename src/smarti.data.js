@@ -133,8 +133,8 @@ smarti.data = {
 		return s.indexOf(m, s.length - m.length) > -1;
 	},
 	_g: function (p, f, d) {
-		if (f) return function (o, v) { var r = f(o, v); if (v !== undefined) { if (!d) r[p] = v; else if (!r[p]) r[p] = {}; } return r && r[p]; }
-		else return function (o, v) { if (v !== undefined) { if (!d) o[p] = v; else if (!o[p]) o[p] = {}; } return o[p]; }
+		if (f) return function (o, v) { var r = f(o, v); if (arguments.length > 1) { if (!d) r[p] = v; else if (!r[p]) r[p] = {}; } return r && r[p]; }
+		else return function (o, v) { if (arguments.length > 1) { if (!d) o[p] = v; else if (!o[p]) o[p] = {}; } return o[p]; }
 	},
 	_sortf: function (m, d, f) {
 		var sf = function (x, y) {
