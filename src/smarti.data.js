@@ -4,7 +4,7 @@ smarti.data = {
 	getter: function (property) {
 		var a = property.toString().replace(/\\?\./g, function (t) { return t == '.' ? '\u000B' : '.'; }).split('\u000B');
 		var f = null;
-		for (var i = 0; i < a.length; i++) f = this._g(a[i], f, i + 1 < a.length);
+		for (var i = 0; i < a.length; i++) f = this._g(a[i], f, i + 1 == a.length);
 		return f;
 	},
 	get: function (property, dataItem) {
@@ -132,9 +132,12 @@ smarti.data = {
 		var m = this._ns(substr, cs);
 		return s.indexOf(m, s.length - m.length) > -1;
 	},
-	_g: function (p, f, d) {
-		if (f) return function (o, v) { var r = f(o, v); if (arguments.length > 1) { if (!d) r[p] = v; else if (!r[p]) r[p] = {}; } return r && r[p]; }
-		else return function (o, v) { if (arguments.length > 1) { if (!d) o[p] = v; else if (!o[p]) o[p] = {}; } return o[p]; }
+	_g: function (p, f, last) {
+		return function (o, v) {
+			var r = f ? (arguments.length > 1 ? f(o, v) : f(o)) : o;
+			if (arguments.length > 1) { if (last) r[p] = v; else if (!r[p]) r[p] = {}; }
+			return r && r[p];
+		}
 	},
 	_sortf: function (m, d, f) {
 		var sf = function (x, y) {
